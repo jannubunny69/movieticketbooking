@@ -1,0 +1,115 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  margin-top: 40px;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+.movie {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.movie img {
+ width: 100%;
+  max-width: 250px;
+  border-radius: 8px;
+}
+
+.details {
+  text-align: left;
+}
+
+
+.seats12,.seats2,.seats3,.seats4{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 20px auto;
+  align-items: center;
+}
+.row1,.row2,.row3,.row4,.row5,.row6,.row7 {
+  display: flex;
+  gap: 7px;
+}
+.seat-container {
+  width: 90%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #09d4a8;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+.screen {
+  background-color: #ccc;
+  color: #333;
+  padding: 10px;
+  margin: 20px auto;
+  margin-bottom: 40px;
+  width: 80%;
+  height: 25px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 20px;
+}
+.seat {
+  width: 25px;
+  height: 25px;
+  gap: 5px;
+  background-color: #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.seat1 {
+  width: 12px;
+  height: 25px;
+  background-color: white;
+  border: 1px solid white;
+  pointer-events: none; 
+  cursor: default;
+}
+.summary {
+  margin-top: 20px;
+}
+.seat:hover {
+  background-color: #1614a9;
+}
+
+.seat.selected {
+  background-color: rgba(29, 167, 47, 0.603);
+  box-shadow: 0 0 8px #9a8cb1;
+}
+button {
+  padding: 10px 25px;
+  background-color: #00b894;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #019875;
+}
