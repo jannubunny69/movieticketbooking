@@ -5,6 +5,50 @@ body {
   padding: 0;
   text-align: center;
 }
+/* Seat Styling */
+.seat, .seat1 {
+  width: 30px;
+  height: 30px;
+  background-color: #eee;
+  border: 1px solid #999;
+  margin: 3px;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.seat:hover {
+  background-color: pink;
+}
+
+.seat.selected {
+  background-color: grey;
+}
+
+/* Timing Buttons */
+.timing-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.timing-btn {
+  padding: 10px 15px;
+  border: 1px solid #007BFF;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.timing-btn:hover {
+  background-color: #007BFF;
+  color: white;
+}
+
+.timing-btn.selected {
+  background-color: #007BFF;
+  color: white;
+}
 
 .container {
   width: 90%;

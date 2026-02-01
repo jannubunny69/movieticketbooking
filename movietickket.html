@@ -4,27 +4,167 @@
   <meta charset="UTF-8">
   <title>Movie Booking System</title>
   <link rel="stylesheet" href="moviestyles.css">
-  <script src="script.js"></script>
-</head>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  // --- Inline CSS for transitions and states ---
+  const style = document.createElement('style');
+  style.textContent = `
+    .seat { transition: background .12s ease, transform .08s ease; cursor: pointer; }
+    .seat:hover { background: pink; }
+    .seat.selected { background: #444 !important; color: #fff; }
+    .seat.booked { background: #888 !important; cursor: not-allowed; }
+    .timing-btn.selected { background: #333; color: #fff; }
+    #billSection {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      border: 2px solid #222;
+      border-radius: 8px;
+      background: #f8f8f8;
+      width: 60%;
+      text-align: left;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    #billSection h3 {
+      margin-bottom: 10px;
+      color: #222;
+    }
+    #billSection p {
+      font-size: 1rem;
+      margin: 4px 0;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // --- Read URL parameters (if any) ---
+  const params = new URLSearchParams(window.location.search);
+  const movie = params.get('title');
+  const poster = params.get('poster');
+  const rating = params.get('rating');
+
+  if (movie) document.getElementById('movieTitle').textContent = movie;
+  if (poster) document.getElementById('moviePoster').src = poster;
+  if (rating) document.getElementById('movieRating').textContent = `Rating: ${rating}/10`;
+
+  // --- Pricing by row ---
+  const pricing = {
+    a: 100, b: 100, c: 100, d: 100, // Silver
+    e: 250, f: 250, // Sofa
+    g: 350, h: 350, i: 350, j: 350, k: 350, l: 350, m: 350, // Premium
+    n: 450, o: 450 // Platinum
+  };
+
+  let selectedSeats = [];
+  let selectedTiming = null;
+
+  function updateSummary() {
+    const selectedEl = document.getElementById('selectedSeats');
+    const priceEl = document.getElementById('totalPrice');
+    selectedEl.textContent = selectedSeats.length ? selectedSeats.join(', ') : 'None';
+    const total = selectedSeats.reduce((sum, id) => sum + (pricing[id[0].toLowerCase()] || 0), 0);
+    priceEl.textContent = total;
+  }
+
+  // --- Seat click handling ---
+  document.querySelectorAll('.seat').forEach(seat => {
+    const id = seat.id || '';
+    seat.title = id;
+    seat.addEventListener('click', () => {
+      if (!id || seat.classList.contains('booked')) return;
+      seat.classList.toggle('selected');
+      if (seat.classList.contains('selected')) {
+        selectedSeats.push(id);
+      } else {
+        selectedSeats = selectedSeats.filter(s => s !== id);
+      }
+      updateSummary();
+    });
+  });
+
+  // --- Timing button handling ---
+  document.querySelectorAll('.timing-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.timing-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedTiming = btn.dataset.time;
+    });
+  });
+
+  // --- Book Now Button ---
+  document.getElementById('bookBtn').addEventListener('click', () => {
+    if (selectedSeats.length === 0) {
+      alert('⚠️ Please select at least one seat!');
+      return;
+    }
+    if (!selectedTiming) {
+      alert('⏰ Please select a show timing!');
+      return;
+    }
+
+    const total = document.getElementById('totalPrice').textContent || 0;
+
+    // ✅ Mark seats as booked visually
+    selectedSeats.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove('selected');
+        el.classList.add('booked');
+        el.setAttribute('aria-disabled', 'true');
+      }
+    });
+
+    // ✅ Generate Bill Section (Below Book Now)
+    // Fill Bill Section
+const currentUser = JSON.parse(localStorage.getItem("user"));
+document.getElementById('billName').textContent = currentUser?.name || "Guest";
+document.getElementById('billEmail').textContent = currentUser?.email || "N/A";
+document.getElementById('billMovie').textContent = document.getElementById('movieTitle').textContent;
+document.getElementById('billSeats').textContent = selectedSeats.join(', ');
+document.getElementById('billTiming').textContent = selectedTiming;
+document.getElementById('billPrice').textContent = total;
+
+
+    const billSection = document.getElementById('billSection');
+    billSection.style.display = 'block'; // show it below the button
+
+    // ✅ Clear current selections
+    selectedSeats = [];
+    updateSummary();
+  });
+});
+</script>
+
 <body>
   <div class="container">
     <h1>Book Your Movie Seat</h1>
 
     <div class="movie">
-    <img src="C:\Users\jannu\OneDrive\Desktop\frontent practise\movieticketbooking\71DwIcSgFcS.jpg" alt="Movie Poster">
+    <img src="C:\Users\jannu\OneDrive\Desktop\frontent practise\movieticketbooking\71DwIcSgFcS.jpg" alt="Movie Poster" id="moviePoster">
       <div class="details">
-        <h2>Inception</h2>
+        <h2 id="movieTitle">Inception</h2>
         <p>Genre: Sci-Fi, Thriller</p>
         <p>Duration: 2h 28m</p>
+        <p id="movieRating">Rating: 8.8/10</p>
         <p>Price per seat: ₹200</p>
       </div>
     </div>
 <div class="seatcontainer">
     <h2>Select Your Seats</h2>
+  <div class="timings">
+  <div class="timing-buttons">
+    <div class="timing-btn" data-time="9:00 AM">9:00 AM</div>
+    <div class="timing-btn" data-time="12:00 PM">12:00 PM</div>
+    <div class="timing-btn" data-time="3:00 PM">3:00 PM</div>
+    <div class="timing-btn" data-time="6:00 PM">6:00 PM</div>
+    <div class="timing-btn" data-time="9:00 PM">9:00 PM</div>
+  </div>
+</div>
+
+
     <div class="screen">
         SCREEN
     </div>
-    <div class="reclainer" id="silver">
+    <div class="silver">
     <div class="seats12">
       <div class="row1">
         <div class="seat" id="a1"></div>
@@ -99,7 +239,7 @@
       <div class="row4">
         
         
-        <div class="seat" id="d1"></div>
+  <div class="seat" id="d1"></div>
   <div class="seat" id="d2"></div>
   <div class="seat" id="d3"></div>
   <div class="seat" id="d4"></div>
@@ -154,7 +294,7 @@
   <div class="seat" id="e18"></div>
       </div>
       <div class="row2">
-        <div class="seat" id="f1"></div>
+  <div class="seat" id="f1"></div>
   <div class="seat" id="f2"></div>
   <div class="seat" id="f3"></div>
   <div class="seat" id="f4"></div>
@@ -488,6 +628,21 @@
         <div class="seat"></div>
       </div>
       </div>  -->
+        <!-- BILL SECTION (initially hidden) -->
+<div id="billSection" class="bill" style="display: none; border: 2px solid #222; padding: 20px; border-radius: 10px; margin-top: 20px; background: #f9f9f9;">
+  <h2> Ticket Bill</h2>
+  <p><strong>Name:</strong> <span id="billName"></span></p>
+  <p><strong>Email:</strong> <span id="billEmail"></span></p>
+  <p><strong>Movie:</strong> <span id="billMovie"></span></p>
+  <p><strong>Seats:</strong> <span id="billSeats"></span></p>
+  <p><strong>Timing:</strong> <span id="billTiming"></span></p>
+  <p><strong>Total Price:</strong> ₹<span id="billPrice"></span></p>
+
+  <div style="margin-top: 15px;">
+    <button id="printBtn" style="margin-right: 10px; background: #4CAF50; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;"> Print</button>
+    <button id="downloadBtn" style="background: #007BFF; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;"> Download</button>
+  </div>
+</div>
     </div>
     </div>
     </div>
@@ -495,9 +650,11 @@
   <p><strong>Selected Seats:</strong> <span id="selectedSeats">None</span></p>
   <p><strong>Total Price:</strong> ₹<span id="totalPrice">0</span></p>
   <button id="bookBtn">Book Now</button>
+
 </div>
 
-    
+
   </div>
+  
 </body>
 </html>

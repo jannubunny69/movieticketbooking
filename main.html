@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Movie Booking System</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      width: 420px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(255, 204, 0, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #ffcc00;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #ccc;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 5px;
+      color: #ffcc00;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #bbb;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #ffcc00, #ffaa00);
+      color: #000;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #ffd633, #ffb300);
+    }
+
+    .toggle-link {
+      color: #ffcc00;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 15px;
+      display: inline-block;
+      transition: color 0.3s;
+    }
+
+    .toggle-link:hover {
+      color: #ffd633;
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
+    }
+
+    .footer-text {
+      margin-top: 30px;
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    .logo {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: #ffcc00;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="logo">🎬</div>
+    <h1 id="form-title">Welcome Back!</h1>
+    <p id="form-subtitle">Login to book your favorite movie tickets</p>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="form active">
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" placeholder="Enter your email" required />
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" placeholder="Enter your password" required />
+      </div>
+      <button type="submit" onclick="loginUser()">Login</button>
+      <div class="toggle-link" onclick="toggleForm()">Don’t have an account? Sign Up</div>
+    </form>
+
+    <!-- Register Form -->
+    <form id="registerForm" class="form">
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter your full name" required />
+      </div>
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" placeholder="Enter your email" required />
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" placeholder="Create a password" required />
+      </div>
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" placeholder="Confirm your password" required />
+      </div>
+      <button type="submit">Register</button>
+      <div class="toggle-link" onclick="toggleForm()">Already have an account? Login</div>
+    </form>
+
+    <div class="footer-text">© 2025 Movie Booking System | All Rights Reserved</div>
+  </div>
+
+   <script>
+  // Toggle between Login and Register
+  function toggleForm() {
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const title = document.getElementById("form-title");
+    const subtitle = document.getElementById("form-subtitle");
+
+    loginForm.classList.toggle("active");
+    registerForm.classList.toggle("active");
+
+    if (loginForm.classList.contains("active")) {
+      title.textContent = "Welcome Back!";
+      subtitle.textContent = "Login to book your favorite movie tickets";
+    } else {
+      title.textContent = "Create Your Account";
+      subtitle.textContent = "Sign up to enjoy movies and exclusive offers";
+    }
+  }
+
+  // REGISTER USER
+  function registerUser(event) {
+    event.preventDefault(); // prevent form submission
+
+    const name = document.querySelector('#registerForm input[type="text"]').value.trim();
+    const email = document.querySelector('#registerForm input[type="email"]').value.trim();
+    const password = document.querySelector('#registerForm input[type="password"]').value;
+    const confirmPassword = document.querySelector('#registerForm input[placeholder="Confirm your password"]').value;
+
+    // Simple validation
+    if (!name || !email || !password || !confirmPassword) {
+      alert("All fields are required!");
+      return;
+    }
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    // Optional: basic email format check
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      alert("Please enter a valid email!");
+      return;
+    }
+
+    // Save user in localStorage
+    const user = { name, email, password };
+    localStorage.setItem("user", JSON.stringify(user));
+
+    alert("Registration successful! Please login.");
+    toggleForm(); // switch to login form
+  }
+
+  // LOGIN USER
+  function loginUser(event) {
+    event.preventDefault(); // prevent form submission
+
+    const email = document.querySelector('#loginForm input[type="email"]').value.trim();
+    const password = document.querySelector('#loginForm input[type="password"]').value;
+
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!storedUser) {
+      alert("No user found! Please register first.");
+      return;
+    }
+
+    if (email === storedUser.email && password === storedUser.password) {
+      alert("Login successful!");
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Invalid email or password!");
+    }
+  }
+
+  // Attach event listeners
+  document.getElementById("registerForm").addEventListener("submit", registerUser);
+  document.getElementById("loginForm").addEventListener("submit", loginUser);
+</script>
+
+</body>
+</html>

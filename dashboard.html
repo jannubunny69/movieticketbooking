@@ -1,0 +1,117 @@
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Booking</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; }
+    header { background: #222; color: #fff; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 1.5rem; }
+    nav a { color: #fff; margin-left: 20px; text-decoration: none; font-weight: bold; }
+    nav a:hover { color: #ffcc00; }
+    .movies-section { padding: 40px 30px; text-align: center; }
+    .movie-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .movie-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; transition: transform 0.2s; }
+    .movie-card:hover { transform: scale(1.03); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+    .movie-card img { width: 100%; height: 300px; object-fit: cover; }
+    .movie-card .info { padding: 10px; }
+    .movie-card h3 { font-size: 1rem; margin: 5px 0; }
+    .movie-card p { color: #666; font-size: 0.9rem; margin-bottom: 10px; }
+    .movie-card button { width: 100%; padding: 8px; background: #ffcc00; border: none; cursor: pointer; font-weight: bold; border-radius: 5px; }
+    .movie-card button:hover { background: #f0b800; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Movie Booking</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Bookings</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<section class="movies-section">
+  <h2>Now Showing</h2>
+  <div class="movie-grid" id="movieGrid"></div>
+</section>
+
+<script>
+const movieGrid = document.getElementById("movieGrid");
+
+const movieTitles = [
+    "Avengers: Endgame", "Inception", "Interstellar", "Joker", "The Dark Knight",
+    "Frozen II", "Avatar", "Titanic", "Black Panther", "Doctor Strange",
+    "Iron Man", "Thor: Ragnarok", "Guardians of the Galaxy", "Shang-Chi",
+    "The Lion King", "Coco", "Toy Story", "Finding Nemo", "Up", "Wall-E",
+    "Spider-Man: Homecoming", "Eternals", "The Batman", "Man of Steel", "Wonder Woman", "Aquaman",
+    "Justice League", "Suicide Squad", "Deadpool", "Logan"
+  ];
+ 
+
+const posters = {
+  "Avengers: Endgame": "AvengersEndgame.jpeg",
+  "Inception": "Inception.jpeg",
+  "Interstellar": "Interstellar.jpeg",
+  "Joker": "Joker.jpeg",
+  "The Dark Knight": "TheDarkKnight.jpeg",
+  "Frozen II": "FrozenII.jpeg",
+  "Avatar": "Avatar.jpeg",
+  "Titanic": "titanic.jpg",
+  "Black Panther": "BlackPanther.jpeg",
+  "Doctor Strange": "doctorstrange.jpg",
+  "Iron Man": "IronMan.jpg",
+  "Thor: Ragnarok": "ThorRagnarok.jpeg",
+  "Guardians of the Galaxy": "GuardiansoftheGalaxy.jpeg",
+  "Shang-Chi": "ShangChi.jpeg",
+  "The Lion King": "TheLionKing.jpg",
+  "Coco": "Coco.jpeg",
+  "Toy Story": "ToyStory.jpeg",
+  "Finding Nemo": "FindingNemo.jpeg",
+  "Up": "Up.jpeg",
+  "Wall-E": "WallE.jpeg",
+  "Spider-Man: Homecoming": "SpiderManHomecoming.jpeg",
+  "Eternals": "Eternals.jpeg",
+  "The Batman": "TheBatman.jpeg",
+  "Man of Steel": "ManofSteel.jpeg",
+  "Wonder Woman": "WonderWoman.jpeg",
+  "Aquaman": "Aquaman.jpeg",
+  "Justice League": "JusticeLeague.jpg",
+  "Suicide Squad": "SuicideSquad.jpeg",
+  "Deadpool": "Deadpool.jpg",
+  "Logan": "Logan.jpeg"
+};
+
+for (let i = 0; i < movieTitles.length; i++) {
+  const movie = movieTitles[i];
+  const rating = (Math.random() * 2 + 7).toFixed(1); // random rating 7-9
+  const poster = posters[movie] || "download.png";
+
+
+  const card = document.createElement("div");
+  card.className = "movie-card";
+  card.innerHTML = `
+    <img src="${poster}" alt="${movie}">
+    <div class="info">
+      <h3>${movie}</h3>
+      <p>Rating: ${rating}/10</p>
+      <button onclick="bookMovie('${movie}', '${poster}', '${rating}')">Book Now</button>
+    </div>
+  `;
+  movieGrid.appendChild(card);
+}
+
+
+
+function bookMovie(movie, poster, rating) {
+    // Save movie details to localStorage
+     const url = `movietickket.html?title=${encodeURIComponent(movie)}&poster=${encodeURIComponent(poster)}&rating=${encodeURIComponent(rating)}`;
+    window.location.href = url;
+}
+</script>
+
+</body>
+</html>
